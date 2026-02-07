@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Liste des artistes</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <h2 th:text="${title}">Liste des artistes</h2>
+
+    <!-- Si la liste n’est pas vide -->
+    <table th:unless="${#lists.isEmpty(artists)}" border="1">
+        <thead>
+        <tr>
+            <th>Prénom</th>
+
+            <!--Attention, il faut bien voir les commentaires-->
+            <td>
+  <a th:href="@{/artists/{id}(id=${artist.id})}"
+     th:text="${artist.lastname}">
+    Lastname
+  </a>
+</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="artist : ${artists}">
+            <td th:text="${artist.firstname}">Firstname</td>
+            <td th:text="${artist.lastname}">Lastname</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Si aucun artiste -->
+    <p th:if="${#lists.isEmpty(artists)}">
+        Aucun artiste trouvé.
+    </p>
+
+</div>
+
+</body>
+</html>

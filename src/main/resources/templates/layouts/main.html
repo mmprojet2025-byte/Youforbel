@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">
+        Youforbel
+    </title>
+</head>
+
+<body>
+
+    <!-- Header commun -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <!-- Contenu spécifique à chaque page -->
+    <main>
+        <div layout:fragment="content">
+            Contenu ici
+        </div>
+    </main>
+
+    <!-- Footer commun -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>
