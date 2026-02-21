@@ -19,20 +19,18 @@
         <thead>
         <tr>
             <th>Prénom</th>
-
-            <!--Attention, il faut bien voir les commentaires-->
-            <td>
-  <a th:href="@{/artists/{id}(id=${artist.id})}"
-     th:text="${artist.lastname}">
-    Lastname
-  </a>
-</td>
+            <th>Nom</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="artist : ${artists}">
             <td th:text="${artist.firstname}">Firstname</td>
-            <td th:text="${artist.lastname}">Lastname</td>
+           <td>
+  <a th:href="@{/artists/{id}(id=${artist.id})}"
+     th:text="${artist.lastname}">
+    Lastname
+  </a>
+</td>
         </tr>
         </tbody>
     </table>
