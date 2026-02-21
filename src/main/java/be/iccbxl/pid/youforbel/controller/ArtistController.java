@@ -6,40 +6,75 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import be.iccbxl.pid.youforbel.model.Artist;
 import be.iccbxl.pid.youforbel.service.ArtistService;
 
+/**
+ * @Controller
+ * Indique que cette classe gère des pages HTML (MVC).
+ */
 @Controller
 public class ArtistController {
 
+    /**
+     * Injection du service.
+     * Le controller ne parle jamais directement au repository.
+     */
     @Autowired
     private ArtistService service;
 
-    // ✅ 1) INDEX : liste de tous les artistes
+    /**
+     * ===============================
+     * READ — Liste des artistes
+     * ===============================
+     */
     @GetMapping("/artists")
     public String index(Model model) {
+
+        // 1) On récupère les artistes depuis la base
         List<Artist> artists = service.getAllArtists();
+
+        // 2) On envoie les données à la vue
         model.addAttribute("artists", artists);
         model.addAttribute("title", "Liste des artistes");
+
+        // 3) On retourne la page Thymeleaf
         return "artist/index";
     }
 
-    // ✅ 2) SHOW : fiche d’un artiste (par id)
-    @GetMapping("/artists/{id}")
-    public String show(Model model, @PathVariable("id") long id) {
+    /**
+     * ===============================
+     * CREATE — Afficher le formulaire
+     * ===============================
+     */
+    @GetMapping("/artists/new")
+    public String createForm(Model model) {
 
-        // 1) on récupère l’artiste demandé via le service
-        Artist artist = service.getArtist(id);
+        // On crée un objet vide pour le formulaire
+        model.addAttribute("artist", new Artist());
 
-        // 2) on l’envoie au template
-        model.addAttribute("artist", artist);
+        model.addAttribute("title", "Créer un artiste");
 
-        // 3) titre de la page
-        model.addAttribute("title", "Fiche d'un artiste");
+        return "artist/create";
+    }
 
-        // 4) template à afficher
-        return "artist/show";
+    /**
+     * ===============================
+     * CREATE — Enregistrer en base
+     * ===============================
+     */
+    @PostMapping("/artists")
+    public String createSubmit(@ModelAttribute Artist artist) {
+
+        // Spring remplit automatiquement l'objet Artist
+        // avec les données du formulaire
+
+        service.addArtist(artist);
+
+        // Redirection vers la liste après enregistrement
+        return "redirect:/artists";
     }
 }

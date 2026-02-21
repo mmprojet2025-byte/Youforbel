@@ -28,7 +28,7 @@ public class Artist {
     private String lastname;
 
     // Constructeur vide obligatoire pour JPA
-    protected Artist() {}
+    public Artist() {}
 
     // Constructeur pratique pour créer un artiste en Java
     public Artist(String firstname, String lastname) {

@@ -19,18 +19,13 @@
   <description>Demo project for Spring Boot numero 1</description>
 
   <properties>
-    <!-- IMPORTANT : on reste en Java 21 (stable + compatible Spring Boot) -->
     <java.version>21</java.version>
-
-    <!-- IMPORTANT : Lombok à jour (sinon erreur TypeTag UNKNOWN) -->
-    <lombok.version>1.18.36</lombok.version>
-
-    <!-- Flyway : version récente (tu es en MySQL 9.x) -->
     <flyway.version>11.14.1</flyway.version>
   </properties>
 
   <dependencies>
-    <!-- Web + MVC -->
+
+    <!-- Web -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-webmvc</artifactId>
@@ -42,7 +37,7 @@
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
     </dependency>
 
-    <!-- Layout Dialect (ETAPE 13) -->
+    <!-- Layout Dialect -->
     <dependency>
       <groupId>nz.net.ultraq.thymeleaf</groupId>
       <artifactId>thymeleaf-layout-dialect</artifactId>
@@ -59,6 +54,7 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-flyway</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.flywaydb</groupId>
       <artifactId>flyway-mysql</artifactId>
@@ -80,46 +76,32 @@
       <optional>true</optional>
     </dependency>
 
-    <!-- Lombok -->
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>${lombok.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
     <!-- Tests -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
 
   <build>
     <plugins>
-      <!-- Compiler -->
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.11.0</version>
         <configuration>
           <release>${java.version}</release>
-          <annotationProcessorPaths>
-            <path>
-              <groupId>org.projectlombok</groupId>
-              <artifactId>lombok</artifactId>
-              <version>${lombok.version}</version>
-            </path>
-          </annotationProcessorPaths>
         </configuration>
       </plugin>
 
-      <!-- Spring Boot -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
+
     </plugins>
   </build>
 

@@ -15,6 +15,11 @@
     <h2 th:text="${title}">Liste des artistes</h2>
 
     <!-- Si la liste n’est pas vide -->
+     <!-- Lien vers le formulaire de création -->
+<a th:href="@{/artists/new}">
+    <button>Ajouter un artiste</button>
+</a>
+
     <table th:unless="${#lists.isEmpty(artists)}" border="1">
         <thead>
         <tr>
@@ -30,7 +35,7 @@
      th:text="${artist.lastname}">
     Lastname
   </a>
-</td>
+
         </tr>
         </tbody>
     </table>
