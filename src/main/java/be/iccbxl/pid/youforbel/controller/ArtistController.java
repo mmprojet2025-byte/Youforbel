@@ -5,76 +5,102 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import be.iccbxl.pid.youforbel.model.Artist;
 import be.iccbxl.pid.youforbel.service.ArtistService;
 
-/**
- * @Controller
- * Indique que cette classe gère des pages HTML (MVC).
- */
 @Controller
 public class ArtistController {
 
-    /**
-     * Injection du service.
-     * Le controller ne parle jamais directement au repository.
-     */
     @Autowired
     private ArtistService service;
 
-    /**
-     * ===============================
-     * READ — Liste des artistes
-     * ===============================
-     */
+    // ===============================
+    // READ — Liste
+    // ===============================
     @GetMapping("/artists")
     public String index(Model model) {
 
-        // 1) On récupère les artistes depuis la base
         List<Artist> artists = service.getAllArtists();
 
-        // 2) On envoie les données à la vue
         model.addAttribute("artists", artists);
         model.addAttribute("title", "Liste des artistes");
 
-        // 3) On retourne la page Thymeleaf
         return "artist/index";
     }
 
-    /**
-     * ===============================
-     * CREATE — Afficher le formulaire
-     * ===============================
-     */
+    // ===============================
+    // READ — Fiche
+    // ===============================
+    @GetMapping("/artists/{id}")
+    public String show(@PathVariable Long id, Model model) {
+
+        Artist artist = service.getArtistById(id);
+
+        model.addAttribute("artist", artist);
+        model.addAttribute("title", "Fiche d'un artiste");
+
+        return "artist/show";
+    }
+
+    // ===============================
+    // CREATE — Formulaire
+    // ===============================
     @GetMapping("/artists/new")
     public String createForm(Model model) {
 
-        // On crée un objet vide pour le formulaire
         model.addAttribute("artist", new Artist());
-
         model.addAttribute("title", "Créer un artiste");
 
-        return "artist/create";
+        return "artist/form";
     }
 
-    /**
-     * ===============================
-     * CREATE — Enregistrer en base
-     * ===============================
-     */
+    // ===============================
+    // CREATE — Save
+    // ===============================
     @PostMapping("/artists")
     public String createSubmit(@ModelAttribute Artist artist) {
 
-        // Spring remplit automatiquement l'objet Artist
-        // avec les données du formulaire
-
         service.addArtist(artist);
 
-        // Redirection vers la liste après enregistrement
+        return "redirect:/artists";
+    }
+
+    // ===============================
+    // UPDATE — Formulaire
+    // ===============================
+    @GetMapping("/artists/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model) {
+
+        Artist artist = service.getArtistById(id);
+
+        model.addAttribute("artist", artist);
+        model.addAttribute("title", "Modifier un artiste");
+
+        return "artist/form";
+    }
+
+    // ===============================
+    // UPDATE — Save
+    // ===============================
+    @PostMapping("/artists/{id}")
+    public String updateSubmit(@PathVariable Long id,
+                               @ModelAttribute Artist artist) {
+
+        service.updateArtist(id, artist);
+
+        return "redirect:/artists";
+    }
+
+    // ===============================
+    // DELETE
+    // ===============================
+    @GetMapping("/artists/{id}/delete")
+    public String delete(@PathVariable Long id) {
+
+        service.deleteArtist(id);
+
         return "redirect:/artists";
     }
 }

@@ -14,28 +14,38 @@
 
     <h2 th:text="${title}">Liste des artistes</h2>
 
-    <!-- Si la liste n’est pas vide -->
-     <!-- Lien vers le formulaire de création -->
-<a th:href="@{/artists/new}">
-    <button>Ajouter un artiste</button>
-</a>
+    <!-- Lien vers le formulaire de création -->
+    <a th:href="@{/artists/new}">
+        <button type="button">Ajouter un artiste</button>
+    </a>
 
     <table th:unless="${#lists.isEmpty(artists)}" border="1">
         <thead>
         <tr>
             <th>Prénom</th>
             <th>Nom</th>
+            <th colspan="2">Actions</th>
         </tr>
         </thead>
+
         <tbody>
         <tr th:each="artist : ${artists}">
             <td th:text="${artist.firstname}">Firstname</td>
-           <td>
-  <a th:href="@{/artists/{id}(id=${artist.id})}"
-     th:text="${artist.lastname}">
-    Lastname
-  </a>
 
+            <td>
+                <a th:href="@{/artists/{id}(id=${artist.id})}"
+                   th:text="${artist.lastname}">
+                    Lastname
+                </a>
+            </td>
+
+            <td>
+                <a th:href="@{/artists/{id}(id=${artist.id})}">View</a>
+            </td>
+
+            <td>
+                <a th:href="@{/artists/{id}/edit(id=${artist.id})}">Edit</a>
+            </td>
         </tr>
         </tbody>
     </table>

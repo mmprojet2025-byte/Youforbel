@@ -5,22 +5,31 @@
       layout:decorate="~{layouts/main}">
 
 <head>
-    <title>Fiche d’un artiste</title>
+    <title>Fiche d'un artiste</title>
 </head>
 
 <body>
 
 <div layout:fragment="content">
 
-    <!-- Affiche prénom + nom -->
-    <h2 th:text="|${artist.firstname} ${artist.lastname}|">
-        Prénom Nom
+    <!-- Nom complet -->
+    <h2 th:text="${artist.firstname} + ' ' + ${artist.lastname}">
+        Nom de l'artiste
     </h2>
 
-    <!-- Lien retour -->
-    <nav>
-        <a th:href="@{/artists}">Retour à la liste</a>
-    </nav>
+    <br>
+
+    <!-- Bouton Modifier -->
+    <a th:href="@{/artists/{id}/edit(id=${artist.id})}">
+        <button type="button">Modifier</button>
+    </a>
+
+    <br><br>
+
+    <!-- Retour -->
+    <a th:href="@{/artists}">
+        Retour à la liste
+    </a>
 
 </div>
 
