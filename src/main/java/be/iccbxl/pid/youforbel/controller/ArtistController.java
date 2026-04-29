@@ -53,7 +53,7 @@ public class ArtistController {
         model.addAttribute("artist", new Artist());
         model.addAttribute("title", "Créer un artiste");
 
-        return "artist/form";
+        return "artist/create";
     }
 
     // ===============================
@@ -78,7 +78,7 @@ public class ArtistController {
         model.addAttribute("artist", artist);
         model.addAttribute("title", "Modifier un artiste");
 
-        return "artist/form";
+        return "artist/create";
     }
 
     // ===============================
