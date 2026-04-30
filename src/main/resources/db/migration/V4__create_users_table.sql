@@ -1,0 +1,12 @@
+CREATE TABLE users (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  login VARCHAR(60) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  firstname VARCHAR(60) NOT NULL,
+  lastname VARCHAR(60) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  langue VARCHAR(2) NOT NULL,
+  role VARCHAR(30) NOT NULL,
+  created_at DATETIME NOT NULL,
+  PRIMARY KEY (id)
+);
