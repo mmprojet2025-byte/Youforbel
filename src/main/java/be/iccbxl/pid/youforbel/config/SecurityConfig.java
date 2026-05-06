@@ -47,9 +47,10 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .defaultSuccessUrl("/artists", true)
-                .permitAll()
-            )
+    .loginPage("/login")
+    .defaultSuccessUrl("/artists", true)
+    .permitAll()
+)
             .logout(logout -> logout
                 .logoutSuccessUrl("/login")
                 .permitAll()
