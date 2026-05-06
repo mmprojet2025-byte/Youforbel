@@ -22,7 +22,6 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository repository) {
-
         return username -> {
             User user = repository.findByLogin(username);
 
@@ -40,11 +39,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login").permitAll()
-                .requestMatchers("/artists/**").authenticated()
+.requestMatchers("/artists").authenticated()
+.requestMatchers("/artists/**").authenticated()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
