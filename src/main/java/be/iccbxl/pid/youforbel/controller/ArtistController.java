@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import be.iccbxl.pid.youforbel.model.Artist;
 import be.iccbxl.pid.youforbel.service.ArtistService;
@@ -19,9 +20,6 @@ public class ArtistController {
     @Autowired
     private ArtistService service;
 
-    // ===============================
-    // READ — Liste
-    // ===============================
     @GetMapping("/artists")
     public String index(Model model) {
 
@@ -33,9 +31,6 @@ public class ArtistController {
         return "artist/index";
     }
 
-    // ===============================
-    // READ — Fiche
-    // ===============================
     @GetMapping("/artists/{id}")
     public String show(@PathVariable Long id, Model model) {
 
@@ -47,9 +42,6 @@ public class ArtistController {
         return "artist/show";
     }
 
-    // ===============================
-    // CREATE — Formulaire
-    // ===============================
     @GetMapping("/artists/new")
     public String createForm(Model model) {
 
@@ -59,13 +51,11 @@ public class ArtistController {
         return "artist/create";
     }
 
-    // ===============================
-    // CREATE — Save
-    // ===============================
     @PostMapping("/artists")
     public String createSubmit(@Valid @ModelAttribute Artist artist,
                                BindingResult bindingResult,
-                               Model model) {
+                               Model model,
+                               RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("title", "Créer un artiste");
@@ -74,12 +64,14 @@ public class ArtistController {
 
         service.addArtist(artist);
 
+        redirectAttributes.addFlashAttribute(
+                "successMessage",
+                "Artiste créé avec succès."
+        );
+
         return "redirect:/artists";
     }
 
-    // ===============================
-    // UPDATE — Formulaire
-    // ===============================
     @GetMapping("/artists/{id}/edit")
     public String editForm(@PathVariable Long id, Model model) {
 
@@ -91,14 +83,12 @@ public class ArtistController {
         return "artist/create";
     }
 
-    // ===============================
-    // UPDATE — Save
-    // ===============================
     @PostMapping("/artists/{id}")
     public String updateSubmit(@PathVariable Long id,
                                @Valid @ModelAttribute Artist artist,
                                BindingResult bindingResult,
-                               Model model) {
+                               Model model,
+                               RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("title", "Modifier un artiste");
@@ -107,16 +97,24 @@ public class ArtistController {
 
         service.updateArtist(id, artist);
 
+        redirectAttributes.addFlashAttribute(
+                "successMessage",
+                "Artiste modifié avec succès."
+        );
+
         return "redirect:/artists";
     }
 
-    // ===============================
-    // DELETE
-    // ===============================
     @PostMapping("/artists/{id}/delete")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id,
+                         RedirectAttributes redirectAttributes) {
 
         service.deleteArtist(id);
+
+        redirectAttributes.addFlashAttribute(
+                "successMessage",
+                "Artiste supprimé avec succès."
+        );
 
         return "redirect:/artists";
     }
