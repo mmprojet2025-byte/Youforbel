@@ -42,15 +42,13 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login").permitAll()
-.requestMatchers("/artists").authenticated()
-.requestMatchers("/artists/**").authenticated()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-    .loginPage("/login")
-    .defaultSuccessUrl("/artists", true)
-    .permitAll()
-)
+                .loginPage("/login")
+                .defaultSuccessUrl("/artists", true)
+                .permitAll()
+            )
             .logout(logout -> logout
                 .logoutSuccessUrl("/login")
                 .permitAll()

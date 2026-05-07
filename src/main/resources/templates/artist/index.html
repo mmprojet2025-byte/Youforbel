@@ -2,6 +2,7 @@
 <html lang="fr"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/main}">
 
 <head>
@@ -14,8 +15,8 @@
 
     <h2 th:text="${title}">Liste des artistes</h2>
 
-    <!-- Lien vers le formulaire de création -->
-    <a th:href="@{/artists/new}">
+    <!-- Lien vers le formulaire de création : ADMIN seulement -->
+    <a th:href="@{/artists/new}" sec:authorize="hasRole('ADMIN')">
         <button type="button">Ajouter un artiste</button>
     </a>
 
@@ -24,7 +25,7 @@
         <tr>
             <th>Prénom</th>
             <th>Nom</th>
-            <th colspan="2">Actions</th>
+            <th colspan="3">Actions</th>
         </tr>
         </thead>
 
@@ -43,15 +44,13 @@
                 <a th:href="@{/artists/{id}(id=${artist.id})}">View</a>
             </td>
 
-            <td>
+            <td sec:authorize="hasRole('ADMIN')">
                 <a th:href="@{/artists/{id}/edit(id=${artist.id})}">Edit</a>
             </td>
 
-            <td>
-    <a th:href="@{/artists/{id}/delete(id=${artist.id})}">Delete</a>
-</td>
-
-
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/artists/{id}/delete(id=${artist.id})}">Delete</a>
+            </td>
         </tr>
         </tbody>
     </table>
