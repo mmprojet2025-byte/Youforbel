@@ -43,8 +43,15 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
 
                 // Pages publiques
-                .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**", "/error/**").permitAll()
-
+                .requestMatchers(
+        "/",
+        "/login",
+        "/register",
+        "/css/**",
+        "/js/**",
+        "/images/**",
+        "/error/**"
+).permitAll()
                 // Pages ADMIN seulement
                 .requestMatchers("/artists/new").hasRole("ADMIN")
                 .requestMatchers("/artists/*/edit").hasRole("ADMIN")

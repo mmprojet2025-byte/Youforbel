@@ -13,12 +13,16 @@
 
         <a th:href="@{/artists}">Artistes</a>
 
-        |
+        |<!-- Si l'utilisateur n'est PAS connecté -->
+<span sec:authorize="!isAuthenticated()">
+    <a th:href="@{/login}">Connexion</a>
 
-        <!-- Si l'utilisateur n'est PAS connecté -->
-        <span sec:authorize="!isAuthenticated()">
-            <a th:href="@{/login}">Connexion</a>
-        </span>
+    |
+
+    <a th:href="@{/register}">Inscription</a>
+</span>
+
+        
 
         <!-- Si l'utilisateur est connecté -->
         <span sec:authorize="isAuthenticated()">
