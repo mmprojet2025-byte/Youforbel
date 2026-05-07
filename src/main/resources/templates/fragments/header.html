@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
 
@@ -14,13 +15,24 @@
 
         |
 
-        <a th:href="@{/login}">Connexion</a>
+        <!-- Si l'utilisateur n'est PAS connecté -->
+        <span sec:authorize="!isAuthenticated()">
+            <a th:href="@{/login}">Connexion</a>
+        </span>
 
-        |
+        <!-- Si l'utilisateur est connecté -->
+        <span sec:authorize="isAuthenticated()">
 
-        <form th:action="@{/logout}" method="post" style="display:inline;">
-            <button type="submit">Déconnexion</button>
-        </form>
+            Bonjour,
+            <strong sec:authentication="name">utilisateur</strong>
+
+            |
+
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit">Déconnexion</button>
+            </form>
+
+        </span>
 
     </nav>
 
