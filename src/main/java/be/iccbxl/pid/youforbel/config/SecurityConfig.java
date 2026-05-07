@@ -42,25 +42,29 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
 
-        // pages accessibles à tous les utilisateurs connectés
-        .requestMatchers("/artists", "/artists/*").authenticated()
+                // Pages publiques
+                .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**", "/error/**").permitAll()
 
-        // pages ADMIN seulement
-        .requestMatchers("/artists/new").hasRole("ADMIN")
-        .requestMatchers("/artists/*/edit").hasRole("ADMIN")
-        .requestMatchers("/artists/*/delete").hasRole("ADMIN")
+                // Pages ADMIN seulement
+                .requestMatchers("/artists/new").hasRole("ADMIN")
+                .requestMatchers("/artists/*/edit").hasRole("ADMIN")
+                .requestMatchers("/artists/*/delete").hasRole("ADMIN")
 
-        // tout le reste
-        .anyRequest().permitAll()
-)
-            
+                // Pages accessibles aux utilisateurs connectés
+                .requestMatchers("/artists", "/artists/*").authenticated()
+
+                // Tout le reste
+                .anyRequest().permitAll()
+            )
+
             .formLogin(form -> form
                 .loginPage("/login")
                 .defaultSuccessUrl("/artists", true)
                 .permitAll()
             )
+
             .logout(logout -> logout
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/login?logout")
                 .permitAll()
             );
 
