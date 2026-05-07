@@ -13,16 +13,18 @@
 
         <a th:href="@{/artists}">Artistes</a>
 
-        |<!-- Si l'utilisateur n'est PAS connecté -->
-<span sec:authorize="!isAuthenticated()">
-    <a th:href="@{/login}">Connexion</a>
+        |
 
-    |
+        <!-- Si l'utilisateur n'est PAS connecté -->
+        <span sec:authorize="!isAuthenticated()">
 
-    <a th:href="@{/register}">Inscription</a>
-</span>
+            <a th:href="@{/login}">Connexion</a>
 
-        
+            |
+
+            <a th:href="@{/register}">Inscription</a>
+
+        </span>
 
         <!-- Si l'utilisateur est connecté -->
         <span sec:authorize="isAuthenticated()">
@@ -32,8 +34,18 @@
 
             |
 
-            <form th:action="@{/logout}" method="post" style="display:inline;">
-                <button type="submit">Déconnexion</button>
+            <a th:href="@{/profile}">Mon profil</a>
+
+            |
+
+            <form th:action="@{/logout}"
+                  method="post"
+                  style="display:inline;">
+
+                <button type="submit">
+                    Déconnexion
+                </button>
+
             </form>
 
         </span>

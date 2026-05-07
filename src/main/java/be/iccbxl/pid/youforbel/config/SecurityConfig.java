@@ -39,19 +39,21 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
             .authorizeHttpRequests(auth -> auth
 
                 // Pages publiques
                 .requestMatchers(
-        "/",
-        "/login",
-        "/register",
-        "/css/**",
-        "/js/**",
-        "/images/**",
-        "/error/**"
-).permitAll()
+                    "/",
+                    "/login",
+                    "/register",
+                    "/css/**",
+                    "/js/**",
+                    "/images/**",
+                    "/error/**"
+                ).permitAll()
+
                 // Pages ADMIN seulement
                 .requestMatchers("/artists/new").hasRole("ADMIN")
                 .requestMatchers("/artists/*/edit").hasRole("ADMIN")
@@ -59,6 +61,7 @@ public class SecurityConfig {
 
                 // Pages accessibles aux utilisateurs connectés
                 .requestMatchers("/artists", "/artists/*").authenticated()
+                .requestMatchers("/profile").authenticated()
 
                 // Tout le reste
                 .anyRequest().permitAll()
@@ -73,6 +76,10 @@ public class SecurityConfig {
             .logout(logout -> logout
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
+            )
+
+            .exceptionHandling(exception -> exception
+                .accessDeniedPage("/error/403")
             );
 
         return http.build();

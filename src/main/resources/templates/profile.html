@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Profil</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <h2>Mon profil</h2>
+
+    <table border="1">
+
+        <tr>
+            <th>Login</th>
+            <td th:text="${user.login}"></td>
+        </tr>
+
+        <tr>
+            <th>Prénom</th>
+            <td th:text="${user.firstname}"></td>
+        </tr>
+
+        <tr>
+            <th>Nom</th>
+            <td th:text="${user.lastname}"></td>
+        </tr>
+
+        <tr>
+            <th>Email</th>
+            <td th:text="${user.email}"></td>
+        </tr>
+
+        <tr>
+            <th>Langue</th>
+            <td th:text="${user.langue}"></td>
+        </tr>
+
+        <tr>
+            <th>Rôle</th>
+            <td th:text="${user.role}"></td>
+        </tr>
+
+    </table>
+
+</div>
+
+</body>
+</html>
