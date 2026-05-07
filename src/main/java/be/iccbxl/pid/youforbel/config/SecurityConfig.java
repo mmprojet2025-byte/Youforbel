@@ -41,9 +41,19 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login").permitAll()
-                .anyRequest().authenticated()
-            )
+
+        // pages accessibles à tous les utilisateurs connectés
+        .requestMatchers("/artists", "/artists/*").authenticated()
+
+        // pages ADMIN seulement
+        .requestMatchers("/artists/new").hasRole("ADMIN")
+        .requestMatchers("/artists/*/edit").hasRole("ADMIN")
+        .requestMatchers("/artists/*/delete").hasRole("ADMIN")
+
+        // tout le reste
+        .anyRequest().permitAll()
+)
+            
             .formLogin(form -> form
                 .loginPage("/login")
                 .defaultSuccessUrl("/artists", true)
