@@ -17,6 +17,16 @@
 
     <!-- Contenu spécifique à chaque page -->
     <main>
+        <!-- Notifications -->
+<div th:if="${successMessage}"
+     style="color: green; margin-bottom: 15px;">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<div th:if="${errorMessage}"
+     style="color: red; margin-bottom: 15px;">
+    <p th:text="${errorMessage}"></p>
+</div>
         <div layout:fragment="content">
             Contenu ici
         </div>

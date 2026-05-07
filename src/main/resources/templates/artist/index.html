@@ -15,14 +15,6 @@
 
     <h2 th:text="${title}">Liste des artistes</h2>
 
-    <!-- Message de succès -->
-<div th:if="${successMessage}"
-     style="color:green; margin-bottom:15px;">
-
-    <p th:text="${successMessage}"></p>
-
-</div>
-
     <!-- Lien vers le formulaire de création : ADMIN seulement -->
     <a th:href="@{/artists/new}" sec:authorize="hasRole('ADMIN')">
         <button type="button">Ajouter un artiste</button>
