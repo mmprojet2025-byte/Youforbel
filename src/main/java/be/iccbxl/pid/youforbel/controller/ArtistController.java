@@ -96,11 +96,11 @@ public class ArtistController {
     // ===============================
     // DELETE
     // ===============================
-    @GetMapping("/artists/{id}/delete")
-    public String delete(@PathVariable Long id) {
+    @PostMapping("/artists/{id}/delete")
+public String delete(@PathVariable Long id) {
 
-        service.deleteArtist(id);
+    service.deleteArtist(id);
 
-        return "redirect:/artists";
-    }
+    return "redirect:/artists";
+}
 }

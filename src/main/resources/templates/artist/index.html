@@ -45,12 +45,16 @@
             </td>
 
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{/artists/{id}/edit(id=${artist.id})}">Edit</a>
-            </td>
+    <form th:action="@{/artists/{id}/delete(id=${artist.id})}"
+          method="post"
+          style="display:inline;">
+        <button type="submit"
+                onclick="return confirm('Voulez-vous vraiment supprimer cet artiste ?');">
+            Delete
+        </button>
+    </form>
+</td>
 
-            <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{/artists/{id}/delete(id=${artist.id})}">Delete</a>
-            </td>
         </tr>
         </tbody>
     </table>
