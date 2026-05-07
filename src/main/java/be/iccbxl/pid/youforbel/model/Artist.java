@@ -7,12 +7,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+// Import des validations
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 // @Entity = cette classe correspond à une table en base de données
 @Entity
 
 // @Table = nom exact de la table dans MySQL
 @Table(name = "artists")
 public class Artist {
+
+    // ===============================
+    // ID
+    // ===============================
 
     // @Id = clé primaire de la table
     @Id
@@ -21,11 +29,25 @@ public class Artist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Colonne firstname dans la table artists
+    // ===============================
+    // FIRSTNAME
+    // ===============================
+
+    @NotBlank(message = "Le prénom est obligatoire")
+    @Size(min = 2, max = 50, message = "Le prénom doit contenir entre 2 et 50 caractères")
     private String firstname;
 
-    // Colonne lastname dans la table artists
+    // ===============================
+    // LASTNAME
+    // ===============================
+
+    @NotBlank(message = "Le nom est obligatoire")
+    @Size(min = 2, max = 50, message = "Le nom doit contenir entre 2 et 50 caractères")
     private String lastname;
+
+    // ===============================
+    // CONSTRUCTEURS
+    // ===============================
 
     // Constructeur vide obligatoire pour JPA
     public Artist() {}
@@ -36,7 +58,9 @@ public class Artist {
         this.lastname = lastname;
     }
 
-    // Getters / Setters : permettent à Spring/JPA d'accéder aux données
+    // ===============================
+    // GETTERS / SETTERS
+    // ===============================
 
     public Long getId() {
         return id;
@@ -62,7 +86,10 @@ public class Artist {
         this.lastname = lastname;
     }
 
-    // Méthode appelée quand on affiche l'objet (ex: dans un log ou une liste)
+    // ===============================
+    // TOSTRING
+    // ===============================
+
     @Override
     public String toString() {
         return firstname + " " + lastname;

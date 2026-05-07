@@ -5,10 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import be.iccbxl.pid.youforbel.model.Artist;
 import be.iccbxl.pid.youforbel.service.ArtistService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class ArtistController {
@@ -60,7 +63,14 @@ public class ArtistController {
     // CREATE — Save
     // ===============================
     @PostMapping("/artists")
-    public String createSubmit(@ModelAttribute Artist artist) {
+    public String createSubmit(@Valid @ModelAttribute Artist artist,
+                               BindingResult bindingResult,
+                               Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("title", "Créer un artiste");
+            return "artist/create";
+        }
 
         service.addArtist(artist);
 
@@ -86,7 +96,14 @@ public class ArtistController {
     // ===============================
     @PostMapping("/artists/{id}")
     public String updateSubmit(@PathVariable Long id,
-                               @ModelAttribute Artist artist) {
+                               @Valid @ModelAttribute Artist artist,
+                               BindingResult bindingResult,
+                               Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("title", "Modifier un artiste");
+            return "artist/create";
+        }
 
         service.updateArtist(id, artist);
 
@@ -97,10 +114,10 @@ public class ArtistController {
     // DELETE
     // ===============================
     @PostMapping("/artists/{id}/delete")
-public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id) {
 
-    service.deleteArtist(id);
+        service.deleteArtist(id);
 
-    return "redirect:/artists";
-}
+        return "redirect:/artists";
+    }
 }

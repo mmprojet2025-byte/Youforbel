@@ -17,19 +17,47 @@
       th:object="${artist}"
       method="post">
 
-        <div>
-            <label>Prénom :</label>
-            <input type="text" th:field="*{firstname}" required>
+    <!-- PRENOM -->
+    <div>
+
+        <label>Prénom :</label>
+
+        <input type="text"
+               th:field="*{firstname}">
+
+        <!-- erreurs firstname -->
+        <div th:if="${#fields.hasErrors('firstname')}"
+             th:errors="*{firstname}"
+             style="color:red;">
         </div>
 
-        <div>
-            <label>Nom :</label>
-            <input type="text" th:field="*{lastname}" required>
+    </div>
+
+    <br>
+
+    <!-- NOM -->
+    <div>
+
+        <label>Nom :</label>
+
+        <input type="text"
+               th:field="*{lastname}">
+
+        <!-- erreurs lastname -->
+        <div th:if="${#fields.hasErrors('lastname')}"
+             th:errors="*{lastname}"
+             style="color:red;">
         </div>
 
-        <button type="submit">Enregistrer</button>
+    </div>
 
-    </form>
+    <br>
+
+    <button type="submit">
+        Enregistrer
+    </button>
+
+</form>
 
     <br>
     <a th:href="@{/artists}">Retour</a>
