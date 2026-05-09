@@ -1,17 +1,16 @@
 package be.iccbxl.pid.youforbel.repository;
 
-import java.util.List;
-
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import be.iccbxl.pid.youforbel.model.Artist;
 
-public interface ArtistRepository extends CrudRepository<Artist, Long> {
+public interface ArtistRepository extends JpaRepository<Artist, Long> {
 
-    // Recherche par nom
-    List<Artist> findByLastname(String lastname);
-
-    // ⚠️ NE PAS redéclarer findById
-    // CrudRepository fournit déjà :
-    // Optional<Artist> findById(Long id);
+    // Recherche par nom avec pagination
+    Page<Artist> findByLastnameContainingIgnoreCase(
+            String lastname,
+            Pageable pageable
+    );
 }

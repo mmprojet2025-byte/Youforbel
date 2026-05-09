@@ -15,10 +15,24 @@
 
     <h2 th:text="${title}">Liste des artistes</h2>
 
-    <!-- Lien vers le formulaire de création : ADMIN seulement -->
+    <form th:action="@{/artists}" method="get">
+        <input type="text"
+               name="keyword"
+               th:value="${keyword}"
+               placeholder="Rechercher par nom">
+
+        <button type="submit">Rechercher</button>
+
+        <a th:href="@{/artists}">Réinitialiser</a>
+    </form>
+
+    <br>
+
     <a th:href="@{/artists/new}" sec:authorize="hasRole('ADMIN')">
         <button type="button">Ajouter un artiste</button>
     </a>
+
+    <br><br>
 
     <table th:unless="${#lists.isEmpty(artists)}" border="1">
         <thead>
@@ -45,24 +59,47 @@
             </td>
 
             <td sec:authorize="hasRole('ADMIN')">
-    <form th:action="@{/artists/{id}/delete(id=${artist.id})}"
-          method="post"
-          style="display:inline;">
-        <button type="submit"
-                onclick="return confirm('Voulez-vous vraiment supprimer cet artiste ?');">
-            Delete
-        </button>
-    </form>
-</td>
+                <a th:href="@{/artists/{id}/edit(id=${artist.id})}">
+                    Edit
+                </a>
+            </td>
 
+            <td sec:authorize="hasRole('ADMIN')">
+                <form th:action="@{/artists/{id}/delete(id=${artist.id})}"
+                      method="post"
+                      style="display:inline;">
+                    <button type="submit"
+                            onclick="return confirm('Voulez-vous vraiment supprimer cet artiste ?');">
+                        Delete
+                    </button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
 
-    <!-- Si aucun artiste -->
     <p th:if="${#lists.isEmpty(artists)}">
         Aucun artiste trouvé.
     </p>
+
+    <div th:if="${totalPages > 1}">
+
+        <a th:if="${currentPage > 0}"
+           th:href="@{/artists(page=${currentPage - 1}, size=5, keyword=${keyword})}">
+            Précédent
+        </a>
+
+        <span>
+            Page <span th:text="${currentPage + 1}">1</span>
+            sur <span th:text="${totalPages}">1</span>
+        </span>
+
+        <a th:if="${currentPage + 1 < totalPages}"
+           th:href="@{/artists(page=${currentPage + 1}, size=5, keyword=${keyword})}">
+            Suivant
+        </a>
+
+    </div>
 
 </div>
 

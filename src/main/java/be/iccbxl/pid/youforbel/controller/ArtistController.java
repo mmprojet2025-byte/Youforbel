@@ -1,8 +1,8 @@
 package be.iccbxl.pid.youforbel.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,11 +21,28 @@ public class ArtistController {
     private ArtistService service;
 
     @GetMapping("/artists")
-    public String index(Model model) {
+    public String index(
 
-        List<Artist> artists = service.getAllArtists();
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(required = false) String keyword,
 
-        model.addAttribute("artists", artists);
+            Model model) {
+
+        Page<Artist> artistsPage =
+                service.getArtistsPage(
+                        keyword,
+                        PageRequest.of(page, size)
+                );
+
+        model.addAttribute("artistsPage", artistsPage);
+        model.addAttribute("artists", artistsPage.getContent());
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", artistsPage.getTotalPages());
+
+        model.addAttribute("keyword", keyword);
+
         model.addAttribute("title", "Liste des artistes");
 
         return "artist/index";
