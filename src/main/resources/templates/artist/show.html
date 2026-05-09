@@ -26,6 +26,30 @@
 
     <br><br>
 
+    <h3>Spectacles liés à cet artiste</h3>
+
+    <ul th:unless="${#lists.isEmpty(artist.shows)}">
+        <li th:each="show : ${artist.shows}">
+
+            <span th:text="${show.title}">
+                Titre spectacle
+            </span>
+
+            |
+
+            <a th:href="@{/shows/{id}(id=${show.id})}">
+                Voir le spectacle
+            </a>
+
+        </li>
+    </ul>
+
+    <p th:if="${#lists.isEmpty(artist.shows)}">
+        Aucun spectacle lié à cet artiste.
+    </p>
+
+    <br>
+
     <!-- Retour -->
     <a th:href="@{/artists}">
         Retour à la liste
