@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Liste des représentations</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <h2 th:text="${title}">Liste des représentations</h2>
+
+    <ul th:unless="${#lists.isEmpty(representations)}">
+        <li th:each="representation : ${representations}">
+            <span th:text="${representation.show.title}">Spectacle</span>
+            -
+            <span th:text="${#temporals.format(representation.schedule, 'dd/MM/yyyy HH:mm')}">
+                Date
+            </span>
+            -
+            <span th:text="${representation.location.designation}">Lieu</span>
+            |
+            <a th:href="@{/representations/{id}(id=${representation.id})}">View</a>
+        </li>
+    </ul>
+
+    <p th:if="${#lists.isEmpty(representations)}">
+        Aucune représentation trouvée.
+    </p>
+
+</div>
+
+</body>
+</html>
