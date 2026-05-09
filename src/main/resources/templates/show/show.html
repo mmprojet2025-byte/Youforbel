@@ -43,6 +43,19 @@
         <em>Non réservable</em>
     </p>
 
+    <h3>Artistes liés au spectacle</h3>
+
+    <ul th:unless="${#lists.isEmpty(show.artists)}">
+        <li th:each="artist : ${show.artists}"
+            th:text="|${artist.firstname} ${artist.lastname}|">
+            Nom artiste
+        </li>
+    </ul>
+
+    <p th:if="${#lists.isEmpty(show.artists)}">
+        Aucun artiste lié à ce spectacle.
+    </p>
+
     <nav>
         <a th:href="@{/shows}">
             Retour à la liste des spectacles

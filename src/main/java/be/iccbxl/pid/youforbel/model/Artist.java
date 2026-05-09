@@ -1,73 +1,40 @@
 package be.iccbxl.pid.youforbel.model;
 
-// Import des annotations JPA (relation Java ↔ base de données)
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
-// Import des validations
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
-// @Entity = cette classe correspond à une table en base de données
 @Entity
-
-// @Table = nom exact de la table dans MySQL
 @Table(name = "artists")
 public class Artist {
 
-    // ===============================
-    // ID
-    // ===============================
-
-    // @Id = clé primaire de la table
     @Id
-
-    // @GeneratedValue = l'id est généré automatiquement (AUTO_INCREMENT)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // ===============================
-    // FIRSTNAME
-    // ===============================
-
-    @NotBlank(message = "Le prénom est obligatoire")
-    @Size(min = 2, max = 50, message = "Le prénom doit contenir entre 2 et 50 caractères")
     private String firstname;
 
-    // ===============================
-    // LASTNAME
-    // ===============================
-
-    @NotBlank(message = "Le nom est obligatoire")
-    @Size(min = 2, max = 50, message = "Le nom doit contenir entre 2 et 50 caractères")
     private String lastname;
 
-    // ===============================
-    // CONSTRUCTEURS
-    // ===============================
+    @ManyToMany(mappedBy = "artists")
+    private List<Show> shows = new ArrayList<>();
 
-    // Constructeur vide obligatoire pour JPA
-    public Artist() {}
+    public Artist() {
+    }
 
-    // Constructeur pratique pour créer un artiste en Java
     public Artist(String firstname, String lastname) {
         this.firstname = firstname;
         this.lastname = lastname;
     }
 
-    // ===============================
-    // GETTERS / SETTERS
-    // ===============================
-
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstname() {
@@ -86,9 +53,13 @@ public class Artist {
         this.lastname = lastname;
     }
 
-    // ===============================
-    // TOSTRING
-    // ===============================
+    public List<Show> getShows() {
+        return shows;
+    }
+
+    public void setShows(List<Show> shows) {
+        this.shows = shows;
+    }
 
     @Override
     public String toString() {

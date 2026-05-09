@@ -2,6 +2,8 @@ package be.iccbxl.pid.youforbel.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +11,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -40,6 +44,14 @@ public class Show {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    @ManyToMany
+    @JoinTable(
+            name = "artist_show",
+            joinColumns = @JoinColumn(name = "show_id"),
+            inverseJoinColumns = @JoinColumn(name = "artist_id")
+    )
+    private List<Artist> artists = new ArrayList<>();
 
     public Show() {
     }
@@ -118,6 +130,14 @@ public class Show {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<Artist> getArtists() {
+        return artists;
+    }
+
+    public void setArtists(List<Artist> artists) {
+        this.artists = artists;
     }
 
     @Override
