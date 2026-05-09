@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Fiche d'un rôle</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <h2 th:text="${role.role}">ADMIN</h2>
+
+    <p>
+        ID :
+        <span th:text="${role.id}">1</span>
+    </p>
+
+    <nav>
+        <a th:href="@{/roles}">
+            Retour à la liste des rôles
+        </a>
+    </nav>
+
+</div>
+
+</body>
+</html>

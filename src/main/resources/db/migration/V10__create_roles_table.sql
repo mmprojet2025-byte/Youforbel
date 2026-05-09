@@ -1,0 +1,6 @@
+CREATE TABLE roles (
+
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+    role VARCHAR(50) NOT NULL
+);
