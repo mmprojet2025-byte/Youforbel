@@ -1,0 +1,5 @@
+CREATE TABLE types (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    type VARCHAR(30) NOT NULL,
+    PRIMARY KEY (id)
+);
