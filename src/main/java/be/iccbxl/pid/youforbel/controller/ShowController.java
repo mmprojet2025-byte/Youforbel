@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import be.iccbxl.pid.youforbel.model.Show;
 import be.iccbxl.pid.youforbel.service.ArtistService;
@@ -21,6 +22,7 @@ public class ShowController {
 
     public ShowController(ShowService showService,
                           ArtistService artistService) {
+
         this.showService = showService;
         this.artistService = artistService;
     }
@@ -58,10 +60,19 @@ public class ShowController {
     }
 
     @PostMapping("/shows/{id}/edit")
-    public String updateShow(@PathVariable Long id,
-                             @RequestParam(required = false) List<Long> artistIds) {
+    public String updateShow(
+
+            @PathVariable Long id,
+
+            @RequestParam(required = false)
+            List<Long> artistIds,
+
+            @RequestParam("posterFile")
+            MultipartFile posterFile) {
 
         showService.updateShowArtists(id, artistIds);
+
+        showService.uploadPoster(id, posterFile);
 
         return "redirect:/shows/" + id;
     }

@@ -16,7 +16,8 @@
 
     <form th:action="@{/shows/{id}/edit(id=${show.id})}"
           th:object="${show}"
-          method="post">
+          method="post"
+          enctype="multipart/form-data">
 
         <div>
             <label>Titre :</label>
@@ -27,14 +28,17 @@
 
         <div>
             <label>Prix :</label>
-            <input type="number" step="0.01" th:field="*{price}">
+            <input type="number"
+                   step="0.01"
+                   th:field="*{price}">
         </div>
 
         <br>
 
         <div>
             <label>Réservable :</label>
-            <input type="checkbox" th:field="*{bookable}">
+            <input type="checkbox"
+                   th:field="*{bookable}">
         </div>
 
         <br>
@@ -42,17 +46,31 @@
         <h3>Artistes liés</h3>
 
         <div th:each="artist : ${artists}">
+
             <label>
+
                 <input type="checkbox"
                        name="artistIds"
-                       th:value="${artist.id}">
+                       th:value="${artist.id}"
+                       th:checked="${show.artists.contains(artist)}">
+
                 <span th:text="|${artist.firstname} ${artist.lastname}|">
                     Nom artiste
                 </span>
+
             </label>
+
         </div>
 
         <br>
+
+        <h3>Affiche du spectacle</h3>
+
+        <input type="file"
+               name="posterFile"
+               accept="image/*">
+
+        <br><br>
 
         <button type="submit">
             Enregistrer
