@@ -22,7 +22,9 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository repository) {
+
         return username -> {
+
             User user = repository.findByLogin(username);
 
             if (user == null) {
@@ -41,6 +43,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
+
+            // Désactiver CSRF pour les API REST
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/api/**")
+            )
+
             .authorizeHttpRequests(auth -> auth
 
                 // Pages publiques
@@ -51,6 +59,8 @@ public class SecurityConfig {
                     "/css/**",
                     "/js/**",
                     "/images/**",
+                    "/uploads/**",
+                    "/api/**",
                     "/error/**"
                 ).permitAll()
 
@@ -59,7 +69,7 @@ public class SecurityConfig {
                 .requestMatchers("/artists/*/edit").hasRole("ADMIN")
                 .requestMatchers("/artists/*/delete").hasRole("ADMIN")
 
-                // Pages accessibles aux utilisateurs connectés
+                // Pages utilisateurs connectés
                 .requestMatchers("/artists", "/artists/*").authenticated()
                 .requestMatchers("/profile").authenticated()
 

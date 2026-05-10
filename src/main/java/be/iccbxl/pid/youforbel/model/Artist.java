@@ -3,6 +3,8 @@ package be.iccbxl.pid.youforbel.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +30,7 @@ public class Artist {
     @Size(min = 2, max = 60, message = "Le nom doit contenir entre 2 et 60 caractères")
     private String lastname;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "artists")
     private List<Show> shows = new ArrayList<>();
 
