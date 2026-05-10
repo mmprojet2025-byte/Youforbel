@@ -30,11 +30,26 @@
         <span sec:authorize="isAuthenticated()">
 
             Bonjour,
-            <strong sec:authentication="name">utilisateur</strong>
+            <strong sec:authentication="name">
+                utilisateur
+            </strong>
 
             |
 
-            <a th:href="@{/profile}">Mon profil</a>
+            <a th:href="@{/profile}">
+                Mon profil
+            </a>
+
+            <!-- ADMIN seulement -->
+            <span sec:authorize="hasRole('ADMIN')">
+
+                |
+
+                <a th:href="@{/admin}">
+                    Admin
+                </a>
+
+            </span>
 
             |
 

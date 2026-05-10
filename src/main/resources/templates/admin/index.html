@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.mx/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Espace administrateur</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <h2 th:text="${title}">Espace administrateur</h2>
+
+    <p>
+        Bienvenue dans l’espace administrateur.
+    </p>
+
+    <p>
+        Cette page est réservée aux utilisateurs ayant le rôle ADMIN.
+    </p>
+
+</div>
+
+</body>
+</html>

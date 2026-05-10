@@ -2,15 +2,19 @@ package be.iccbxl.pid.youforbel.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import be.iccbxl.pid.youforbel.model.User;
 import be.iccbxl.pid.youforbel.repository.UserRepository;
+import be.iccbxl.pid.youforbel.security.JwtAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -40,13 +44,19 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(
+            HttpSecurity http,
+            JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
 
         http
-
-            // Désactiver CSRF pour les API REST
+            // Désactiver CSRF pour API REST
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/api/**")
+            )
+
+            // JWT = stateless
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
 
             .authorizeHttpRequests(auth -> auth
@@ -60,16 +70,29 @@ public class SecurityConfig {
                     "/js/**",
                     "/images/**",
                     "/uploads/**",
-                    "/api/**",
+                    "/api/auth/**",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/v3/api-docs/**",
                     "/error/**"
                 ).permitAll()
 
-                // Pages ADMIN seulement
+                // Autoriser OPTIONS pour CORS
+                .requestMatchers(
+                    HttpMethod.OPTIONS,
+                    "/api/**"
+                ).permitAll()
+
+                // API sécurisée JWT
+                .requestMatchers("/api/**").authenticated()
+
+                // ADMIN seulement
+                .requestMatchers("/admin").hasRole("ADMIN")
                 .requestMatchers("/artists/new").hasRole("ADMIN")
                 .requestMatchers("/artists/*/edit").hasRole("ADMIN")
                 .requestMatchers("/artists/*/delete").hasRole("ADMIN")
 
-                // Pages utilisateurs connectés
+                // Utilisateurs connectés
                 .requestMatchers("/artists", "/artists/*").authenticated()
                 .requestMatchers("/profile").authenticated()
 
@@ -90,6 +113,12 @@ public class SecurityConfig {
 
             .exceptionHandling(exception -> exception
                 .accessDeniedPage("/error/403")
+            )
+
+            // JWT Filter
+            .addFilterBefore(
+                jwtAuthenticationFilter,
+                UsernamePasswordAuthenticationFilter.class
             );
 
         return http.build();
